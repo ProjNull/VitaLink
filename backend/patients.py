@@ -34,3 +34,13 @@ def addEmployee():
     )
     session_instance.add(commitObject)
     return jsonify({"message": f"added patient with fields {firstName}, {lastName}, {password}, {dateOfBirth}"})
+
+@patients.route("/get", methods=["GET"])
+def getPatientByID():
+    idPatient = request.json.get("idPatient")
+    patientObj = session_instance.query(Patients).filter_by(idPatient=idPatient).first()
+    
+    if not patientObj:
+        return jsonify({"message": f"No patient found with id {idPatient}"})
+    
+    return jsonify({patientObj.idPatient, patientObj.firstName, patientObj.lastName})
