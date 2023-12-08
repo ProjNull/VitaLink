@@ -1,5 +1,9 @@
+from datetime import date
+import json
 from flask import Blueprint, jsonify, request
-from middlecrud import delete_patient, register_patient, login_patient, get_patient
+from requests import ReadTimeout
+from sqlalchemy import false
+from middlecrud import delete_patient, register_patient, login_patient, get_patient, set_patient_nickname
 
 patients = Blueprint("Patients_BP", __name__, url_prefix="/patients")
 
@@ -38,5 +42,29 @@ def getPatientByID():
     return {"message": "Patient retrieved", "status": 200, "patient": p}
 
 # TODO: login
+@patients.route("/login", methods=["POST"])
+def loginPatient():
+    firstName = request.json.get("firstName")
+    lastName = request.json.get("lastName")
+    dateOfBirth = request.json.get("dateOfBirth")
+    password = request.json.get("password")
+    
+    val = login_patient(firstName=firstName, lastName=lastName, dob=dateOfBirth, password=password)
+    
+    return jsonify(val)
 # TODO: delete
+@patients.route("/delete", methods=["DELETE"])
+def deletePatient():
+    idPatient = request.json.get("/idPatient")
+    
+    var = delete_patient(idPatient)
+    
+    return jsonify(var)
 # TODO: set nickname
+@patients.route("/put", methods=["PUT"])
+def renamePatient():
+    idPatient = request.json.get("idPatient")
+    newNick = request.json.get("newNick")
+    
+    var = set_patient_nickname(idPatient, newNick)
+    return jsonify(var)
