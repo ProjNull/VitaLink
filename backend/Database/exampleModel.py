@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from database import Base
+from Database.database import Base
 
 class Employees(Base):
     __tablename__ = 'Employees'

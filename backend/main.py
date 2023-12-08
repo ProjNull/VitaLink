@@ -10,23 +10,31 @@ from flask_socketio import SocketIO
 
 
 # Imports files
-from exampleModel import Users
-from database import Session, func
+from Database.exampleModel import Employees, Patients
+from Database.database import Session, func
 
 
 # Setup flask instance
 SECRET_KEY = "CHANGE-ME-TO-SOMETHING-RANDOM"
 
-api = Flask(__name__)
-api.secret_key = SECRET_KEY
+app = Flask(__name__)
+app.secret_key = SECRET_KEY
 
-socketio = SocketIO(api)
-socketio.init_app(api, cors_allowed_origins="*")
+socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins="*")
 
+# Registering blueprints
+from patients import patients
+from nurses import nurses
+from admin import admin
+
+app.register_blueprint(patients, url_prefix="/patients")
+app.register_blueprint(nurses, url_prefix="/nurses")
+app.register_blueprint(admin, url_prefix="/admin")
 
 # Default routes
 # TODO: Add blueprints for better readability
-@api.route("/test", methods=["GET","POST"])
+@app.route("/test", methods=["GET","POST"])
 def test():
     """
         Handle testing if API works
@@ -40,4 +48,4 @@ def test():
 
 
 if __name__ == "__main__":
-    socketio.run(api, debug=True, host="0.0.0.0", port="8002")
+    socketio.run(app, debug=True, host="0.0.0.0", port="8002")
