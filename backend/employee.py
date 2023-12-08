@@ -71,3 +71,17 @@ def authEmployee():
         return jsonify({"message": "Incorrect password"})
     
     return jsonify("payload.algorithm.signature")
+
+@employee.route("/delete", methods=["DELETE"])
+def deleteByID():
+    idEmployee = request.json.get("idEmployee")
+    
+    if not idEmployee:
+        return jsonify({"message": "No ID given"})
+    
+    employeeObj = session_instance.query(Employees).filter_by(idEmployee=idEmployee).first()
+    
+    session_instance.delete(employeeObj)
+    session_instance.commit()
+    
+    return jsonify({"message": f"Removed employee {employeeObj.firstName}"})
