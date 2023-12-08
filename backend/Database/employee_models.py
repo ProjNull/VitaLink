@@ -10,6 +10,7 @@ class Employees(Base):
     firstName = Column(String, nullable = False)
     lastName = Column(String, nullable = False)
     nickname = Column(String, nullable = True)
+    email = Column(String, nullable = False)
     password = Column(String, nullable = False)
     dateOfBirth = Column(Date, nullable = False)
     isAdmin = Column(Boolean, nullable = False, default = False)
