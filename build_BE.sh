@@ -1,4 +1,3 @@
-#!bin/bash/
-
+#!/usr/bin/env bash
 cd backend/
-python3 main.py
+gunicorn --worker-class eventlet -w 1 main:app
