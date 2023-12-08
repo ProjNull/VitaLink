@@ -8,7 +8,7 @@
 ### Test
 #### POST/GET /test
 ### Request Body
-    None
+- None
 ### Return
     Message: {Method} request
 
@@ -19,13 +19,13 @@
 ### Request Body
 
 
-firstName (string): First name of the nurse.
-lastName (string): Last name of the nurse.
-nick (string): Unique nickname for the nurse.
-password (string): Password for the nurse's account.
-email (string): Email address of the nurse.
-dateOfBirth (string): Date of birth of the nurse (format: YYYY-MM-DD).
-isAdmin (boolean): Indicates whether the nurse has administrative privileges.
+- firstName (string): First name of the nurse.
+- lastName (string): Last name of the nurse.
+- nick (string): Unique nickname for the nurse.
+- password (string): Password for the nurse's account.
+- email (string): Email address of the nurse.
+- dateOfBirth (string): Date of birth of the nurse (format: YYYY-MM-DD).
+- isAdmin (boolean): Indicates whether the nurse has administrative privileges.
 
 Example Request
 ```json
@@ -70,7 +70,7 @@ Error Responses:
 #### GET /nurses/get
 ### Request Body
 
-idEmployee (integer): ID of the nurse.
+- idEmployee (integer): ID of the nurse.
 
 Example Request
 
