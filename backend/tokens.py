@@ -1,8 +1,31 @@
 import jwt
 import decouple
 import secrets
+import os
 
-secret_key = decouple.config("jwt_secret", secrets.token_bytes(64).decode())
+
+def create_jwt_secret():
+    data = []
+    new_secret = secrets.token_hex(
+        127
+    )  # No specific reason for 127, I just like the number
+    if os.path.exists(".env"):
+        with open(".env", "r") as envfile:
+            for line in envfile.readlines():
+                if line.startswith("jwt_secret="):
+                    data.append("jwt_secret=" + new_secret)
+                    continue
+                data.append(line)
+    else:
+        data.append('jwt_secret="' + new_secret + '"\n')
+    with open(".env", "w") as envfile:
+        for line in data:
+            envfile.write(line)
+        envfile.flush()
+    print("WARNING: No JWT secret was specified, so we generated one for you!")
+
+
+secret_key = decouple.config("jwt_secret", create_jwt_secret())
 
 payload = {"user_id": 123, "username": "john_doe"}
 
