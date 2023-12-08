@@ -1,6 +1,6 @@
 """ 
     Failed attempts at fixing this code:
-    0
+    1
     (Increment each time you fail)
 """
 
@@ -10,7 +10,8 @@ from flask_socketio import SocketIO
 
 
 # Imports files
-from Database.patient_models import Employees, Patients
+from Database.patient_models import Patients
+from Database.employee_models import Employees
 from Database.database import Session, func
 
 
