@@ -7,7 +7,7 @@ from Database.database import Session, Base, engine, session as perma_session
 from Database.employee_models import Employees as Employee
 from Database.message_models import Messages as Message
 from Database.mood_models import Mood
-from Database.password_encryption import hashPassword, verifyPassword
+from password_encryption import hashPassword, verifyPassword
 from Database.patient_models import (
     Patients as Patient,
     AccessToPatient as EmployeePatientKey,
@@ -261,6 +261,7 @@ def deny_access(patientId, employeeId) -> bool:
             return True
     except:
         return False
+
 
 def has_access(patientId, employeeId) -> bool:
     try:
