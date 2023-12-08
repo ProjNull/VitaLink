@@ -10,7 +10,7 @@ from flask_socketio import SocketIO
 
 
 # Imports files
-from Database.exampleModel import Employees, Patients
+from Database.patient_models import Employees, Patients
 from Database.database import Session, func
 
 
