@@ -18,7 +18,7 @@ def addEmployee():
     email = request.json.get("email")
     dateOfBirth = request.json.get("dateOfBirth")
     isAdmin = request.json.get("isAdmin")
-    q = session_instance.query(Employees).filter_by(email).first()
+    q = session_instance.query(Employees).filter_by(email=email).first()
      
     if q == email:
         return jsonify({"message": "Someone already has this email!"})
