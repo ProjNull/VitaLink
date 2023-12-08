@@ -2,6 +2,9 @@
 const isOpen = ref(false)
 const qustion = ref(0)
 
+const toast = useToast()
+
+const nickname = ref("")
 const nalada = ref(0)
 
 const advancedcolors = ref(false)
@@ -28,6 +31,63 @@ function onSubmit (form) {
 onMounted(()=> {
   isOpen.value = true;
 })
+
+const emojis = [
+  {
+    icon: "i-fluent-emoji:smiling-face-with-heart-eyes",
+    text:"Je mi dobře.",
+    value: 5
+  },{
+    icon: "i-fluent-emoji:beaming-face-with-smiling-eyes",
+    text:"Jsem spokojen.",
+    value: 4
+  },{
+    icon: "i-fluent-emoji:face-with-diagonal-mouth",
+    text:"Tak mezi.",
+    value: 3
+  },{
+    icon: "i-fluent-emoji:disappointed-face",
+    text:"Jsem smutný.",
+    value: 2
+  },{
+    icon: "i-fluent-emoji:face-with-thermometer",
+    text:"Je to prostě špatný.",
+    value: 1
+  },
+]
+
+const donequstions = ref([])
+
+function nextQustion() {
+  qustion.value++
+}
+
+function checkAll() {
+  let isOK = true;
+  if (nickname.value == "") {
+    toast.add({
+      title: 'Není zadaná přezdívka.',
+      icon: 'i-heroicons:exclamation-triangle-solid',
+    })
+    isOK = false;
+  }
+
+  if (nalada.value == 0) {
+    toast.add({
+      title: 'Není zadaná nálada.',
+      icon: 'i-heroicons:exclamation-triangle-solid',
+    })
+    isOK = false;
+  }
+
+  if (isOK) {
+    toast.add({
+      title: 'Posílám',
+      icon: 'i-heroicons:check-badge-solid',
+    })
+  }
+}
+
 </script>
 
 <template>
@@ -41,11 +101,28 @@ onMounted(()=> {
       
       <div v-if="qustion == 0">
         <h1>Jak ti máme říkat?</h1>
-        <UInput></UInput>
+        <UInput v-model="nickname"></UInput>
       </div>
       <div v-if="qustion == 1">
         <h1>Jak se cítíš?</h1>
-        <URange v-model="nalada"></URange>
+        <div class="flex justify-center py-2">
+          <template v-for="emoji in emojis">
+            <button @click="nalada = emoji.value" class="transition-all" style="transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);" :class="{'scale-125 drop-shadow-2xl z-20 mx-3': nalada == emoji.value, 'brightness-75': (nalada != 0 && nalada != emoji.value)}">
+              <Icon size="3rem" :name="emoji.icon"></Icon>
+            </button>
+          </template>
+        </div>
+        <UDivider/>
+        <div class="text-center">
+          <span :class="{'hidden': (nalada != 0)}">
+              Vyberte náladu
+            </span>
+          <template v-for="emoji in emojis">
+            <span :class="{'hidden': (nalada != emoji.value)}">
+              {{ emoji.text }}
+            </span>
+          </template>
+        </div>
       </div>
       <div v-if="qustion == 2">
         <h1>Vyber tvou oblíbenou barvu</h1>
@@ -85,11 +162,16 @@ onMounted(()=> {
             <UButton v-if="qustion > 0" variant="outline" @click="qustion -= 1">Zpět</UButton>
           </div>
           <div class="flex flex-1 justify-end">
-            <UButton v-if="qustion <= 3" @click="qustion++">Pokračovat</UButton>
-            <UButton v-else-if="qustion > 3" @click="qustion++">Dokončit</UButton>
+            <UButton v-if="qustion <= 3" @click="nextQustion()">Pokračovat</UButton>
+            <UButton v-else-if="qustion > 3" @click="checkAll()">Dokončit</UButton>
           </div>
         </div>
-        
+        <div class="flex justify-stretc gap-1 mx-auto mt-4">
+          <template v-for="i in 5">
+            <div class="h-2 flex-1 rounded-xl transition-color duration-500" :class="{'bg-primary-500': qustion + 1 > i,'bg-primary-300':qustion + 1 == i,'bg-gray-700': qustion + 1 < i}">
+            </div>
+          </template>
+        </div>
 
         
 
@@ -97,7 +179,8 @@ onMounted(()=> {
       </template>
       
     </UCard>
-    <UProgress :ui="{'progress':{'rounded':''}}" :value="qustion" :max="4"></UProgress>
+    
+    <!-- <UProgress :ui="{'progress':{'rounded':''}}" :value="qustion" :max="4"></UProgress> -->
   </UModal>
 </template>
 
