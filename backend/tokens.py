@@ -30,22 +30,19 @@ def create_jwt_secret():
 secret_key = decouple.config("jwt_secret", create_jwt_secret())
 
 
-# encoded_token = jwt.encode(payload, secret_key, algorithm="HS256")
-# print("Encoded JWT:", encoded_token)
-
-# decoded_payload = jwt.decode(encoded_token, secret_key, algorithms="HS256")
-# print("Decoded Payload:", decoded_payload)
-
 def generateJWTPacient(firstName: str, lastName: str, idPacient: int):
-    payload = {"firstName": firstName, "lastName": lastName, "idPacient" :idPacient}##cratzy commen
-    return jwt.encode(payload, secret_key, algorithm="HS256")##cratzy commen
-##cratzy commen
-def generateJWTEmployee(firstName: str, lastName: str, idEmployee: int, isAdmin: bool):##cratzy commen
-    payload = {"firstName": firstName, "lastName": lastName, "idEmployee" :idEmployee}
-    return jwt.encode(payload, secret_key, algorithm="HS256")##cratzy commen
+    # Generates a token for a pacient
+    payload = {"firstName": firstName, "lastName": lastName, "idPacient" :idPacient}
+    return jwt.encode(payload, secret_key, algorithm="HS256")
 
-def validateJWT(token: str) -> Dict | None:##cratzy commen
-    try:##cratzy commen
-        return jwt.decode(token, secret_key, algorithms=["HS256"])##cratzy commen
-    except:##cratzy commen
+def generateJWTEmployee(firstName: str, lastName: str, idEmployee: int, isAdmin: bool):
+    # Generates a token for an employee
+    payload = {"firstName": firstName, "lastName": lastName, "idEmployee" :idEmployee}
+    return jwt.encode(payload, secret_key, algorithm="HS256")
+
+def validateJWT(token: str) -> Dict | None:
+    # returns either the decoded token or none if it is invalid
+    try:
+        return jwt.decode(token, secret_key, algorithms=["HS256"])
+    except:
         return None
