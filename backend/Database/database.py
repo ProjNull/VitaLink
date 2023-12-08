@@ -1,8 +1,6 @@
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm.collections import InstrumentedList
-from sqlalchemy.orm.state import InstanceState
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 

@@ -1,19 +1,8 @@
-""" 
-    Failed attempts at fixing this code:
-    2
-    Successfull attempts:
-    1
-    (Increment each time you fail)
-"""
-
 from Database.database import Base, engine
-
-# Imports libraries
 from flask import Flask, request
 from flask_socketio import SocketIO
 
 Base.metadata.create_all(engine)
-
 
 app = Flask(__name__)
 
@@ -22,7 +11,6 @@ socketio.init_app(app, cors_allowed_origins="*")
 
 from admin import admin
 from employee import employee
-# Registering blueprints
 from patients import patients
 
 app.register_blueprint(patients, url_prefix="/patients")
@@ -31,11 +19,11 @@ app.register_blueprint(admin, url_prefix="/admin")
 
 
 @app.route("/", methods=["GET", "POST"])
-def test():
+def root():
     """
-    Handle testing if API works
-
-    :return: message: {method} request
+    Serves as a test to see if the server lives.
+    Returns "POST request" if access through post
+    Returns "GET request" if accessed through get
     """
     return {"message": request.method + " request", "status": 200}
 
