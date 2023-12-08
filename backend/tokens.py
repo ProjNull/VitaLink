@@ -1,7 +1,10 @@
 import jwt
+import decouple
+import secrets
+
+secret_key = decouple.config("jwt_secret", secrets.token_bytes(64).decode())
 
 payload = {"user_id": 123, "username": "john_doe"}
-secret_key = "bimbim"
 
 encoded_token = jwt.encode(payload, secret_key, algorithm="HS256")
 print("Encoded JWT:", encoded_token)
