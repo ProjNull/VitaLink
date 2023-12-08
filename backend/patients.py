@@ -7,10 +7,7 @@ patients = Blueprint("Patients_BP", __name__, url_prefix="/patients")
 session_instance = Session()
 
 def is_missing_params(parameters) -> bool:
-    for parameter in parameters:
-        if parameters:
-            return True
-    return False
+    return not None in parameters
 
 @patients.route("/create", methods=["POST"])
 def addEmployee():
