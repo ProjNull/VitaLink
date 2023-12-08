@@ -1,8 +1,4 @@
-from datetime import date
-import json
 from flask import Blueprint, jsonify, request
-from requests import ReadTimeout
-from sqlalchemy import false
 from middlecrud import delete_patient, register_patient, login_patient, get_patient, set_patient_nickname
 
 patients = Blueprint("Patients_BP", __name__, url_prefix="/patients")
