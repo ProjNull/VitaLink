@@ -1,6 +1,8 @@
+# Custom handler for exceptions and headers
+from flask import json
 from werkzeug.exceptions import HTTPException
-
 from main import api
+
 
 @api.errorhandler(HTTPException)
 def handle_exception(e):

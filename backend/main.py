@@ -4,11 +4,17 @@
     (Increment each time you fail)
 """
 
-from database import Session, func
+# Imports libraries
 from flask import Flask, json, jsonify, request, session
 from flask_socketio import SocketIO
-from exampleModel import Users
 
+
+# Imports files
+from exampleModel import Users
+from database import Session, func
+
+
+# Setup flask instance
 SECRET_KEY = "CHANGE-ME-TO-SOMETHING-RANDOM"
 
 api = Flask(__name__)
@@ -17,6 +23,9 @@ api.secret_key = SECRET_KEY
 socketio = SocketIO(api)
 socketio.init_app(api, cors_allowed_origins="*")
 
+
+# Default routes
+# TODO: Add blueprints for better readability
 @api.route("/test", methods=["GET","POST"])
 def test():
     """
