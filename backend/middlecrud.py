@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from datetime import date
+from datetime import date, datetime
 
 from sqlalchemy import false
 
@@ -12,6 +12,7 @@ from Database.patient_models import (
     Patients as Patient,
     AccessToPatient as EmployeePatientKey,
 )
+
 
 @contextmanager
 def get_db() -> Session:
@@ -340,3 +341,80 @@ def has_access(patientId, employeeId) -> bool:
             return not exisiting_key is None
     except:
         return False
+
+
+def send_message(
+    patientId: int,
+    employeeId: int,
+    isSenderEmployee: bool,
+    content: str,
+    repliesTo: int | None = None,
+) -> bool:
+    """Sends a message
+
+    Args:
+        patientId (int): The patient to either receive or send the message
+        employeeId (int): The nurse to either receive or send the message
+        isSenderEmployee (bool): Whether it's the employee that's sending the message
+        content (str): The content of the message
+        repliesTo (int | None, optional): Whether the message is a reply to another message. If it is, this is the ID of the message it's replying to. Defaults to None.
+
+    Returns:
+        bool: Whether we succeeded
+    """
+    m = Message(
+        idEmployee=employeeId,
+        idPatient=patientId,
+        senderIsPatient=not isSenderEmployee,
+        replyTo=repliesTo,
+        content=content,
+        createdAt=datetime.now(),
+    )
+    try:
+        with get_db() as session:
+            session.add(m)
+            session.commit()
+        return True
+    except Exception as _:  # _ means ignored or unused
+        pass
+    return False
+
+
+def get_messages(patientId: int) -> list[dict] | None:
+    """_summary_
+
+    Args:
+        patientId (int): The ID of the patiend we want to get reponses for
+
+    Returns:
+        list[dict] | None: None only if we failed.
+    
+    Dict Format:
+        "messageId": m.idMessage,
+        "content": m.content,
+        "senderIsPatient": m.senderIsPatient,
+        "senderIsEmployee": not m.senderIsPatient,
+        "patientId": m.idPatient,
+        "employeeId": m.idEmployee,
+        "timestamp": m.createdAt.timestamp(),
+    """
+    try:
+        with get_db() as session:
+            messages: list[Message] = (
+                session.query(EmployeePatientKey).filter_by(idPatient=patientId).all()
+            )
+            return [
+                {
+                    "messageId": m.idMessage,
+                    "content": m.content,
+                    "senderIsPatient": m.senderIsPatient,
+                    "senderIsEmployee": not m.senderIsPatient,
+                    "patientId": m.idPatient,
+                    "employeeId": m.idEmployee,
+                    "timestamp": m.createdAt.timestamp(),
+                }
+                for m in messages
+            ]
+    except Exception as _:
+        pass
+    return None
