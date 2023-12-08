@@ -12,11 +12,12 @@ socketio.init_app(app, cors_allowed_origins="*")
 from admin import admin
 from employee import employee
 from patients import patients
+from messages import messages
 
 app.register_blueprint(patients, url_prefix="/patients")
 app.register_blueprint(employee, url_prefix="/employee")
 app.register_blueprint(admin, url_prefix="/admin")
-
+app.register_blueprint(messages, url_prefix="/messages")
 
 @app.route("/", methods=["GET", "POST"])
 def root():
