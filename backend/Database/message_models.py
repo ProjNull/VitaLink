@@ -1,8 +1,6 @@
 from datetime import datetime
-
-from Database.database import Base
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-
+from .database import Base
 
 class Messages(Base):
     __tablename__ = "Messages"

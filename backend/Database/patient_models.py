@@ -1,7 +1,5 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
-
-from Database.database import Base
-
+from .database import Base
 
 class AccessToPatient(Base):
     __tablename__ = "AccessToPatient"

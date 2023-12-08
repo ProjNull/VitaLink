@@ -1,7 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-
-from Database.database import Base
-
+from .database import Base
 
 class Mood(Base):
     __tablename__ = "Mood"
