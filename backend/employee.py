@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from Database.employee_models import Employees
 from Database.database import Session
+import password_encryption as pe
 
 employee = Blueprint("Nurses_BP", __name__, url_prefix="/nurses")
 
@@ -31,7 +32,7 @@ def addEmployee():
         firstName = firstName,
         lastName = lastName,
         nick = nick,
-        password = password,
+        password = pe.encrypt(password),
         email = email,
         dateOfBirth = dateOfBirth,
         isAdmin = isAdmin
@@ -67,7 +68,7 @@ def authEmployee():
     if not employeeObj:
         return jsonify({"message": "Email was not found"})
     
-    if not employeeObj.password == password:
+    if not pe.checkpw(password, employeeObj.password):
         return jsonify({"message": "Incorrect password"})
     
     return jsonify("payload.algorithm.signature")
