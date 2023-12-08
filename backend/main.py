@@ -5,6 +5,7 @@
 """
 
 # Imports libraries
+from datetime import date
 from flask import Flask, json, jsonify, request
 from flask_socketio import SocketIO
 
@@ -50,4 +51,8 @@ def test():
 
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, host="10.147.18.186", port="8002")
+    from middlecrud import login_employee, register_employee
+    print(register_employee("Script", "Inane", "hyscript7@gmail.com", "test123", date.today()))
+    print(login_employee("hyscript7@gmail.com", "test123"))
+    exit(0)
+    socketio.run(app, debug=True, host="0.0.0.0", port="8002")
