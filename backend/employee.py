@@ -8,8 +8,7 @@ session_instance = Session()
 
 @employee.route("/new", methods=["POST"])
 def addEmployee():
-    if request.method == "GET":
-        return jsonify({"message": "Only POST enabled"})
+    if request.method == "GET": return jsonify({"message": "Only POST enabled"})
        
     
     firstName = request.json.get("firstName")
@@ -43,8 +42,7 @@ def addEmployee():
 
 @employee.route("/get", methods=["GET"])
 def getEmployee():
-    if request.method == "POST":
-        return jsonify({"message": "Only GET enabled"})
+    if request.method == "POST": return jsonify({"message": "Only GET enabled"})
     
     idEmployee = request.json.get("idEmployee")
     EmployeeObj = session_instance.query(Employees).filter_by(idEmployee=idEmployee).first()
@@ -54,3 +52,22 @@ def getEmployee():
     
     return jsonify({EmployeeObj})
     
+@employee.route("/auth", methods=["GET"])
+def authEmployee():
+    if request.method == "POST": return jsonify({"Message": "Only GET enabled"}) 
+    
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not password or not email:
+        return jsonify({"message": "Missing arguments"})
+    
+    employeeObj = session_instance.query(Employees).filter_by(email=email).first()
+    
+    if not employeeObj:
+        return jsonify({"message": "Email was not found"})
+    
+    if not employeeObj.password == password:
+        return jsonify({"message": "Incorrect password"})
+    
+    return jsonify("payload.algorithm.signature")
