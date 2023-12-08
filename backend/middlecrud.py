@@ -74,7 +74,16 @@ def register_employee(
         return None
 
 
-def login_employee(email: str, password: str) -> int | None:
+def login_employee(email: str, password: str) -> bool:
+    """Returns whether the password is correct or not
+
+    Args:
+        email (str): The email of the employee
+        password (str): The (unhashed) password
+
+    Returns:
+        bool: Correct or incorrect?
+    """
     password = password.encode("utf-8")
     try:
         with get_db() as session:
@@ -105,7 +114,15 @@ def get_employee(**query_keys) -> dict | None:
         }
 
 
-def delete_employee(employeeId) -> bool:
+def delete_employee(employeeId: int) -> bool:
+    """Deletes an employee
+
+    Args:
+        employeeId (int): The ID of the employee to delete
+
+    Returns:
+        bool: Whether they were or weren't deleted (either due to an error or because they don't exist)
+    """
     try:
         with get_db() as session:
             employee: Employee = (
@@ -120,7 +137,16 @@ def delete_employee(employeeId) -> bool:
         return False
 
 
-def set_employee_nickname(employeeId, newNickName) -> bool:
+def set_employee_nickname(employeeId: int, newNickName: str) -> bool:
+    """Sets an employee's nickname
+
+    Args:
+        employeeId (int): The ID of the employee
+        newNickName (str): The new nickname
+
+    Returns:
+        bool: Whether we succeeded or not
+    """
     try:
         with get_db() as session:
             employee: Employee = (
@@ -139,6 +165,17 @@ def set_employee_nickname(employeeId, newNickName) -> bool:
 def register_patient(
     firstName: str, lastName: str, dob: date, password: str
 ) -> int | None:
+    """Registers a patient if they don't already exist
+
+    Args:
+        firstName (str): The first name of the patient
+        lastName (str): The last name of the patient
+        dob (date): Date of the birth of the patient
+        password (str): The passcode of the patient
+
+    Returns:
+        int | None: Either the ID of the patient or None if we failed
+    """
     password = password.encode("utf-8")
     p = Patient(
         firstName=firstName,
@@ -163,6 +200,17 @@ def register_patient(
 
 
 def login_patient(firstName: str, lastName: str, dob: date, password: str) -> bool:
+    """Whether the password for the patient is correct or not
+
+    Args:
+        firstName (str): The first name
+        lastName (str): The last name
+        dob (date): The date of birth of the patient
+        password (str): The patient's password
+
+    Returns:
+        bool: Whether the password is correct or incorrect
+    """
     password = password.encode("utf-8")
     try:
         with get_db() as session:
@@ -179,20 +227,33 @@ def login_patient(firstName: str, lastName: str, dob: date, password: str) -> bo
 
 
 def get_patient(**query_keys):
+    """retrieves the patient based on any key (matching the model)
+
+    Returns:
+        dict: The data of the patient (without password) - dateOfBirth is 'dob'
+    """
     with get_db() as session:
         patient: Patient = session.query(Patient).filter_by(**query_keys).first()
         if not patient:
             return None
         return {
-            "id": patient.idEmployee,
+            "id": patient.idPatient,
             "firstName": patient.firstName,
             "lastName": patient.lastName,
             "nickname": patient.nick,
-            "hasAdmin": patient.isAdmin,
+            "dob": patient.dateOfBirth
         }
 
 
 def delete_patient(patientId: int) -> bool:
+    """Deletes the patient based off an ID
+
+    Args:
+        patientId (int): The Id of the patient to delete
+
+    Returns:
+        bool: Whether we succeeded or not
+    """
     try:
         with get_db() as session:
             patient = session.query(Patient).filter_by(idPatient=patientId).first()
@@ -205,7 +266,16 @@ def delete_patient(patientId: int) -> bool:
         return False
 
 
-def set_patient_nickname(patientId, newNickName) -> bool:
+def set_patient_nickname(patientId: int, newNickName: str) -> bool:
+    """Sets a patient nickname
+
+    Args:
+        patientId (int): The ID of the patient
+        newNickName (str): The new nickname
+
+    Returns:
+        bool: Whether we succeeded or not
+    """
     try:
         with get_db() as session:
             patient: Patient = (
