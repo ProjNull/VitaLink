@@ -12,6 +12,28 @@ const advancedcolors = ref(false)
 const zakladnibarvy = ["red","yellow","lime","blue","violet","pink"]
 const barvy = ["red","orange","amber","yellow","lime","green","emerald","teal","cyan","sky","blue","indigo","violet","purple","fuchsia","pink","rose"]
 
+
+const barvyPreklad = {
+  "red": "Červená",
+  "orange": "Oranžová",
+  "amber": "Amber",
+  "yellow": "Žlutá",
+  "lime": "Limetka",
+  "green": "Zelená",
+  "emerald": "Emerald",
+  "teal": "Modrozelená",
+  "cyan": "Azurová",
+  "sky": "Obloha",
+  "blue": "Modrá",
+  "indigo": "Indigová",
+  "violet": "Fialová světle",
+  "purple": "Fialová",
+  "purple": "Růžová",
+  "fuchsia":"Fuchsiová",
+  "pink": "Růžová",
+  "rose": "Ruže"
+}
+
 function changeColor(barva) {
   config.ui.primary = barva
   localStorage.setItem("color", barva)
@@ -138,12 +160,12 @@ function checkAll() {
         <div class="flex flex-wrap gap-2 justify-center">
           <template v-if="advancedcolors == false" v-for="barva in zakladnibarvy">
             <UButton square="true" @click="changeColor(barva)" :color="barva" :variant="selected(barva)" size="xl" padded="true">
-              <UIcon name="i-heroicons-paint-brush-solid" />
+              <UIcon name="i-heroicons-paint-brush-solid" /> {{ barvyPreklad[barva] }}
             </UButton>
           </template>
           <template v-if="advancedcolors == true" v-for="barva in barvy">
             <UButton square="true" @click="changeColor(barva)" :color="barva" :variant="selected(barva)" size="xl" padded="true">
-              <UIcon name="i-heroicons-paint-brush-solid" />
+              <UIcon name="i-heroicons-paint-brush-solid" /> {{ barvyPreklad[barva] }}
             </UButton>
           </template>
         </div>
