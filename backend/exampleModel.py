@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String, Date
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -11,6 +11,7 @@ class Employees(Base):
     lastName = Column(String, nullable = False)
     nickname = Column(String, nullable = True)
     password = Column(String, nullable = False)
+    dateOfBirth = Column(Date, nullable = False)
     isAdmin = Column(Boolean, nullable = False, default = False)
 
 class Patients(Base):
@@ -20,4 +21,5 @@ class Patients(Base):
     idEmployees = Column(Integer, ForeignKey('Employees.idEmployees'), nullable = True)
     firstName = Column(String, nullable = False)
     lastName = Column(String, nullable = False)
+    dateOfBirth = Column(Date, nullable = False)
     passcode = Column(String, nullable = True) #not implemented says štefan
