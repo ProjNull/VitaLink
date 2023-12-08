@@ -1,43 +1,42 @@
 from flask import Blueprint, jsonify, request
-from Database.patient_models import Patients
-from Database.database import Session
+from middlecrud import delete_patient, register_patient, login_patient, get_patient
 
 patients = Blueprint("Patients_BP", __name__, url_prefix="/patients")
 
-session_instance = Session()
 
 def is_missing_params(parameters) -> bool:
-    return not None in parameters
+    return not (None in parameters)
+
 
 @patients.route("/create", methods=["POST"])
-def addEmployee():
-    if request.method == "GET": return jsonify({"message": "Only POST enabled"})
-
-    params = request.json.get("params")
-
+def addPatient():
     firstName = request.json.get("firstName")
     lastName = request.json.get("lastName")
     password = request.json.get("password")
     dateOfBirth = request.json.get("dateOfBirth")
-    
-    if is_missing_params([firstName, lastName, password, dateOfBirth]):
-        return jsonify({"message": "Missing param"})
 
-    commitObject = Patients(
-        firstName = firstName,
-        lastName = lastName,
-        password = password,
-        dateOfBirth = dateOfBirth
-    )
-    session_instance.add(commitObject)
-    return jsonify({"message": f"added patient with fields {firstName}, {lastName}, {password}, {dateOfBirth}"})
+    if is_missing_params([firstName, lastName, password, dateOfBirth]):
+        return jsonify({"message": "Missing param", "status": 400})
+    r = register_patient(firstName, lastName, dateOfBirth, password)
+    if not r:
+        return {"message": "Could not register", "status": 500}
+    return {
+        "message": "Registered!",
+        "status": 200,
+        "token": "payload.algorithm.signature",
+    }
+
 
 @patients.route("/get", methods=["GET"])
 def getPatientByID():
     idPatient = request.json.get("idPatient")
-    patientObj = session_instance.query(Patients).filter_by(idPatient=idPatient).first()
-    
-    if not patientObj:
-        return jsonify({"message": f"No patient found with id {idPatient}"})
-    
-    return jsonify({patientObj.idPatient, patientObj.firstName, patientObj.lastName})
+    if not idPatient:
+        return {"message": "Missing params", "status": 400}
+    p = get_patient(idPatient)
+    if not p:
+        return {"message": "Patient could not be retrieved", "status": 500}
+    return {"message": "Patient retrieved", "status": 200, "patient": p}
+
+# TODO: login
+# TODO: delete
+# TODO: set nickname

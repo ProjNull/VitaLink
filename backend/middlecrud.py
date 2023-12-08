@@ -226,7 +226,7 @@ def login_patient(firstName: str, lastName: str, dob: date, password: str) -> bo
         return False
 
 
-def get_patient(**query_keys):
+def get_patient(**query_keys) -> dict | None:
     """retrieves the patient based on any key (matching the model)
 
     Returns:
