@@ -8,5 +8,5 @@ if bcrypt.checkpw(password, hashed):
 else:
     print("It Does not Match :(")
 
-
+# WIP not done
 # interface encrypt(password:str)->str checkpw(password:str, hashedpassword:str)->bool

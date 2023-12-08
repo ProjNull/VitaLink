@@ -19,4 +19,4 @@ class Patients(Base):
     firstName = Column(String, nullable = False)
     lastName = Column(String, nullable = False)
     dateOfBirth = Column(Date, nullable = False)
-    passcode = Column(String, nullable = True) #not implemented says štefan
+    password = Column(String, nullable = True) #not implemented says štefan
