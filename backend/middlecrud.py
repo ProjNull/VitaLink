@@ -7,15 +7,11 @@ from Database.database import Session, Base, engine, session as perma_session
 from Database.employee_models import Employees as Employee
 from Database.message_models import Messages as Message
 from Database.mood_models import Mood
-from password_encryption import hashPassword, verifyPassword
+from password_encryption import hashPassword, checkPassword as verifyPassword
 from Database.patient_models import (
     Patients as Patient,
     AccessToPatient as EmployeePatientKey,
 )
-
-
-Base.metadata.create_all(engine)
-
 
 @contextmanager
 def get_db() -> Session:
@@ -241,7 +237,7 @@ def get_patient(**query_keys) -> dict | None:
             "firstName": patient.firstName,
             "lastName": patient.lastName,
             "nickname": patient.nick,
-            "dob": patient.dateOfBirth
+            "dob": patient.dateOfBirth,
         }
 
 

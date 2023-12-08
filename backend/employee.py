@@ -1,3 +1,9 @@
+""" 
+    Failed attempts at fixing this code:
+    0.5
+    (Increment each time you fail)
+"""
+
 from Database.database import Session
 from flask import Blueprint, request
 from middlecrud import (delete_employee, get_employee, login_employee,

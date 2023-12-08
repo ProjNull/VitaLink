@@ -1,58 +1,44 @@
 """ 
     Failed attempts at fixing this code:
     2
+    Successfull attempts:
+    1
     (Increment each time you fail)
 """
 
+from Database.database import Base, engine
+
 # Imports libraries
-from datetime import date
-from flask import Flask, json, jsonify, request
+from flask import Flask, request
 from flask_socketio import SocketIO
 
+Base.metadata.create_all(engine)
 
-# Imports files
-from Database.patient_models import Patients
-from Database.employee_models import Employees
-from Database.database import Session, func
-
-
-# Setup flask instance
-SECRET_KEY = "CHANGE-ME-TO-SOMETHING-RANDOM"
-session_instance = Session()
 
 app = Flask(__name__)
-app.secret_key = SECRET_KEY
 
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
+from admin import admin
+from employee import employee
 # Registering blueprints
 from patients import patients
-from employee import employee
-from admin import admin
 
 app.register_blueprint(patients, url_prefix="/patients")
 app.register_blueprint(employee, url_prefix="/employee")
 app.register_blueprint(admin, url_prefix="/admin")
 
-# Default routes
-# TODO: Add blueprints for better readability
-@app.route("/test", methods=["GET","POST"])
+
+@app.route("/", methods=["GET", "POST"])
 def test():
     """
-        Handle testing if API works
-        
-        :return: message: {method} request
+    Handle testing if API works
+
+    :return: message: {method} request
     """
-    if request.method == "POST":
-        return jsonify({"message": "POST request"})
-    if request.method == "GET":
-        return jsonify({"message": "GET request"})    
+    return {"message": request.method + " request", "status": 200}
 
 
 if __name__ == "__main__":
-    from middlecrud import login_employee, register_employee
-    print(register_employee("Script", "Inane", "hyscript7@gmail.com", "test123", date.today()))
-    print(login_employee("hyscript7@gmail.com", "test123"))
-    exit(0)
     socketio.run(app, debug=True, host="0.0.0.0", port="8002")
