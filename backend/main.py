@@ -5,7 +5,7 @@
 """
 
 # Imports libraries
-from flask import Flask, json, jsonify, request, session
+from flask import Flask, json, jsonify, request
 from flask_socketio import SocketIO
 
 
@@ -17,6 +17,7 @@ from Database.database import Session, func
 
 # Setup flask instance
 SECRET_KEY = "CHANGE-ME-TO-SOMETHING-RANDOM"
+session_instance = Session()
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -26,11 +27,11 @@ socketio.init_app(app, cors_allowed_origins="*")
 
 # Registering blueprints
 from patients import patients
-from nurses import nurses
+from employee import employee
 from admin import admin
 
 app.register_blueprint(patients, url_prefix="/patients")
-app.register_blueprint(nurses, url_prefix="/nurses")
+app.register_blueprint(employee, url_prefix="/employee")
 app.register_blueprint(admin, url_prefix="/admin")
 
 # Default routes
