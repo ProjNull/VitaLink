@@ -1,53 +1,33 @@
-""" 
-    Failed attempts at fixing this code:
-    1
-    (Increment each time you fail)
-"""
-
-# Imports libraries
-from flask import Flask, json, jsonify, request
+from Database.database import Base, engine
+from flask import Flask, request
 from flask_socketio import SocketIO
 
-
-# Imports files
-from Database.patient_models import Patients
-from Database.employee_models import Employees
-from Database.database import Session, func
-
-
-# Setup flask instance
-SECRET_KEY = "CHANGE-ME-TO-SOMETHING-RANDOM"
-session_instance = Session()
+Base.metadata.create_all(engine)
 
 app = Flask(__name__)
-app.secret_key = SECRET_KEY
 
 socketio = SocketIO(app)
 socketio.init_app(app, cors_allowed_origins="*")
 
-# Registering blueprints
-from patients import patients
-from employee import employee
 from admin import admin
+from employee import employee
+from patients import patients
+from messages import messages
 
 app.register_blueprint(patients, url_prefix="/patients")
 app.register_blueprint(employee, url_prefix="/employee")
 app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(messages, url_prefix="/messages")
 
-# Default routes
-# TODO: Add blueprints for better readability
-@app.route("/test", methods=["GET","POST"])
-def test():
+@app.route("/", methods=["GET", "POST"])
+def root():
     """
-        Handle testing if API works
-        
-        :return: message: {method} request
+    Serves as a test to see if the server lives.
+    Returns "POST request" if access through post
+    Returns "GET request" if accessed through get
     """
-    if request.method == "POST":
-        return jsonify({"message": "POST request"})
-    if request.method == "GET":
-        return jsonify({"message": "GET request"})    
+    return {"message": request.method + " request", "status": 200}
 
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, host="10.147.18.186", port="8002")
+    socketio.run(app, debug=True, host="0.0.0.0", port="8002")

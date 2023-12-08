@@ -88,22 +88,23 @@ Success Response:
 
 ```json
 {
-    "idEmployee": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "nick": "johnny",
-    "password": "securepassword",
-    "email": "john.doe@example.com",
-    "dateOfBirth": "1990-05-15",
-    "isAdmin": false
+    "employee": {
+        "id": 0,
+        "firstName": "john",
+        "lastName": "doe",
+        "nickname": "Johnny",
+        "hasAdmin": true,
+    }
 }
 ```
 Error Response:
-- Code: 404 Not Found
+- Code: 500 Not Found
+- Code: 400 Missing params
 - Content:
 
 ```json
 {
-    "message": "Employee not found"
+    "message": "Employee not found",
+    "status": 500
 }
 ```
