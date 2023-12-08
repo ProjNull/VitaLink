@@ -16,7 +16,8 @@
 
 ### employee route
 ---
-#### /new
+### Add employee
+#### POST /new
 
 #### Request Body
 - **firstName** (string): First name of the nurse.
