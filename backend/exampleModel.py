@@ -9,7 +9,9 @@ class Employees(Base):
     idEmployees = Column(Integer, primary_key = True, autoincrement = True, nullable = False)
     firstName = Column(String, nullable = False)
     lastName = Column(String, nullable = False)
+    nickname = Column(String, nullable = True)
     password = Column(String, nullable = False)
+    isAdmin = Column(Boolean, nullable = False, default = False)
 
 class Patients(Base):
     __tablename__ = 'Patients'
