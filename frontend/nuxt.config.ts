@@ -7,4 +7,9 @@ export default defineNuxtConfig({
     'nuxt-icon',
     "@vite-pwa/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      apiURL: 'http://10.253.180.174:8002'
+    }
+  }
 })
