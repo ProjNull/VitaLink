@@ -35,9 +35,9 @@ function changeColor(barva) {
 
 function selected(barva) {
   if (config.ui.primary == barva) {
-    return "solid"
+    return "scale-75"
   }
-  return "outline"
+  return ""
 }
 </script>
 
@@ -51,7 +51,7 @@ function selected(barva) {
                 <template #panel>
                 <div class="p-4 flex flex-wrap w-[20rem] gap-2">
                     <template v-for="barva in barvy">
-                        <Button square="true" @click="changeColor(barva)" :color="barva" :variant="selected(barva)" class="w-10 h-10 md:w-4 md:h-4 rounded-full" :class="`bg-${barva}-500`">
+                        <Button square="true" @click="changeColor(barva)" :color="barva" :variant="selected(barva)" class="transition-all w-10 h-10 md:w-5 md:h-5 rounded-full" :class="`${selected(barva)} bg-${barva}-500`">
                         </Button>
                     </template>
                 </div>

@@ -1,11 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  head: {
-    script: [
-      { src: './fetchApi.js' },
-      // Add other global scripts here
-    ],
-  },
   devtools: { enabled: true },
   modules: [
     "@nuxt/ui",
@@ -15,7 +9,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiURL: 'http://10.253.180.174:8002'
+      apiURL: 'http://10.253.180.176:8002'
     }
   }
 })
