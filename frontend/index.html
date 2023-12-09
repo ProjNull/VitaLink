@@ -12,7 +12,7 @@
         async function comune(restApiAddress, payload) {
             try {
                 const response = await fetch(restApiAddress+payload[1], {
-                    method: 'POST',
+                    method: payload[2],
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -37,7 +37,8 @@
                     isAdmin: true,
                     nick: "palma"
                 },
-                "/employee/new"
+                "/employee/new",
+                "POST"
             ]
         };
         function getEmployeeLoad(idEmployee) {
@@ -45,7 +46,8 @@
                 {
                     idEmployee: '3'
                 },
-                "/employee/get"
+                "/employee/get",
+                "GET"
             ]
         };
         function authEmployeeLoad(email, password) {
@@ -54,7 +56,8 @@
                     email:"mail@gmail.com",
                     password:"pass"
                 },
-                "/employee/auth"
+                "/employee/auth",
+                "POST"
             ]
         };
         function deletEmployeeLoad(idEmployee) {
@@ -62,7 +65,8 @@
                 {
                     idEmployee: 'honza'
                 },
-                "/employee/delete"
+                "/employee/delete",
+                "DELETE"
             ]
         };
         function getMessages(idEmployee) {
@@ -70,7 +74,8 @@
                 {
                     idEmployee: 'honza'
                 },
-                "/messages/get"
+                "/messages/get",
+                "GET"
             ]
         };
         function postMessages(idPatient, idEmployee, isSenderEmployee, content, repliesTo) {
@@ -82,9 +87,66 @@
                     content: content, 
                     repliesTo: repliesTo
                 },
-                "/messages/post"
+                "/messages/post",
+                "POST"
             ]
         };
+        function createPatients(firstName, lastName, password, dateOfBirth) {
+            return [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password,
+                    dateOfBirth: dateOfBirth
+                },
+                "/patients/create",
+                "POST"
+            ]
+        };
+        function getPatients(firstName, lastName, password, dateOfBirth) {
+            return [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password,
+                    dateOfBirth: dateOfBirth
+                },
+                "/patients/get",
+                "GET"
+            ]
+        };
+        function loginPatients(firstName, lastName, password, dateOfBirth) {
+            return [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password,
+                    dateOfBirth: dateOfBirth
+                },
+                "/patients/login",
+                "POST"
+            ]
+        };
+        function deletePatients(idPatient) {
+            return [
+                {
+                    idPatient: idPatient
+                },
+                "/patients/delete",
+                "DELETE"
+            ]
+        };
+        function renamePatients(idPatient, newNick) {
+            return [
+                {
+                    idPatient: idPatient,
+                    newNick: newNick
+                },
+                "/patients/put",
+                "PUT"
+            ]
+        };
+
 
 
     </script>
