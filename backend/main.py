@@ -1,13 +1,16 @@
 from Database.database import Base, engine
 from flask import Flask, request, send_file
 from flask_socketio import SocketIO
+from flask_cors import CORS
 
 Base.metadata.create_all(engine)
 
+origins = "*"
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": origins}})
 
-socketio = SocketIO(app)
-socketio.init_app(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins = origins)
+socketio.init_app(app)
 
 from admin import admin
 from employee import employee
