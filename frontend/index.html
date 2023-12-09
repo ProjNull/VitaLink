@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const payload = {
+            firstName: 'honza',
+            lastName:"palma",
+            password:"pass",
+            email:"mail@gmail.com",
+            dateOfBirth:"2023-12-09",
+            isAdmin: true
+        };
+        
+        async function postData() {
+            try {
+                const response = await fetch('http://127.0.0.1:8002/employee/new', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('Response data:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Call the function to send the data
+
+    </script>
+        <button onclick="postData()">new</button>
+</body>
+</html>
