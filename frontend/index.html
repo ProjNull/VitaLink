@@ -7,16 +7,17 @@
 </head>
 <body>
     <script>
-        const payload = {
-            firstName: 'honza',
-            lastName:"palma",
-            password:"pass",
-            email:"mail@gmail.com",
-            dateOfBirth:"2023-12-09",
-            isAdmin: true
-        };
-        
-        async function postData() {
+        async function createNewEmployee(firstName, lastName, password, email, dateOfBirth, isAdmin, nick) {
+            const payload = {
+                firstName: 'honza',
+                lastName:"palma",
+                password:"pass",
+                email:"mail@gmail.com",
+                dateOfBirth:"2023-12-09",
+                isAdmin: true,
+                nick: "palma"
+            };
+
             try {
                 const response = await fetch('http://127.0.0.1:8002/employee/new', {
                     method: 'POST',
@@ -33,9 +34,8 @@
             }
         }
 
-        // Call the function to send the data
 
     </script>
-        <button onclick="postData()">new</button>
+        <button onclick="createNewEmployee('honza','palma','pass','mail@gmail.com','2023-12-09',true,'palma')">new</button>
 </body>
 </html>
