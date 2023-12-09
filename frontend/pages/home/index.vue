@@ -36,32 +36,38 @@ onMounted(() => {
         <div class="flex flex-col md:flex-row gap-2 p-2 flex-wrap justify-center">
             <UButton class="sec flex flex-col">
                 <div class="relative">
-                    <Icon name="i-fluent-emoji:smiling-face-with-heart-eyes" class="main-img drop-shadow-xl m-4" size="10rem">
-                    </Icon>
+                    <h3 class="block text-xl font-bold">Nálada</h3>
+                    <Icon name="i-fluent-emoji:smiling-face-with-heart-eyes" class="main-img drop-shadow-xl m-4" size="10rem"></Icon>
                     <Icon name="i-fluent-emoji-expressionless-face" class="left-img drop-shadow-xl left-2 rotate-[-40deg] bottom-9 absolute" size="4rem"></Icon>
-                    <Icon name="i-fluent-emoji-fearful-face" class="right-img drop-shadow-xl right-0 rotate-[30deg] top-3 absolute" size="4rem"></Icon>
+                    <Icon name="i-fluent-emoji-fearful-face" class="right-img drop-shadow-xl right-0 rotate-[30deg] top-8 absolute" size="4rem"></Icon>
                 </div>
-                
-                
-                
-                <h3 class="block text-xl">Nálada</h3>
             </UButton>
-            <UButton class="sec flex flex-col">
+            <!-- <UButton class="sec flex flex-col">
+                <h3 class="block text-xl font-bold ">Otázky</h3>
                 <div class="relative">
                     <Icon name="i-fluent-emoji-thinking-face" class="main-img drop-shadow-xl m-4" size="10rem"></Icon>
                     <Icon name="i-fluent-emoji-red-exclamation-mark" class="left-img drop-shadow-xl left-2 rotate-[-20deg] bottom-9 absolute" size="4rem"></Icon>
                     <Icon name="i-fluent-emoji-red-question-mark" class="right-img drop-shadow-xl right-0 rotate-[20deg] top-3 absolute" size="4rem"></Icon>
                 </div>
-                <h3 class="block text-xl">Otázky</h3>
-            </UButton>
+            </UButton> -->
             <UButton to="/home/message" class="sec flex flex-col">
+                <h3 class="block text-xl font-bold ">Zprávy / Otázky</h3>
                 <div class="relative">
                     <Icon name="i-fluent-emoji-face-with-raised-eyebrow" class="main-img drop-shadow-xl m-4" size="10rem"></Icon>
                     <Icon name="i-fluent-emoji-left-speech-bubble" class="left-img drop-shadow-xl left-2 rotate-[-20deg] bottom-9 absolute" size="4rem"></Icon>
-                    <Icon name="i-fluent-emoji-thought-balloon" class="right-small-img drop-shadow-xl right-0 rotate-[0deg] top-0 absolute" size="4rem"></Icon>
+                    <Icon name="i-fluent-emoji-red-question-mark" class="right-small-img drop-shadow-xl right-0 rotate-[0deg] top-0 absolute" size="4rem"></Icon>
                 </div>
                 <!-- <Icon name="i-fluent-emoji-thought-balloon" class="drop-shadow-xl m-4" size="10rem"></Icon> -->
-                <h3 class="block text-xl">Zprávy</h3>
+            </UButton>
+            <UButton to="/home/games" class="sec flex flex-col">
+                <h3 class="block text-xl font-bold ">Hry</h3>
+                <div class="relative">
+                    <Icon name="i-fluent-emoji-beaming-face-with-smiling-eyes" class="main-img drop-shadow-xl m-4" size="10rem"></Icon>
+                    <Icon name="i-fluent-emoji-game-die" class="left-img drop-shadow-xl left-2 rotate-[-20deg] bottom-9 absolute" size="4rem"></Icon>
+                    <Icon name="i-fluent-emoji-trophy" class="right-small-img drop-shadow-xl right-1 rotate-[20deg] top-3 absolute" size="4rem"></Icon>
+                </div>
+                <!--  -->
+                <!-- <Icon name="i-fluent-emoji-thought-balloon" class="drop-shadow-xl m-4" size="10rem"></Icon> -->
             </UButton>
             <URange v-model="nalada" name="range" />
         </div>
@@ -82,17 +88,24 @@ onMounted(() => {
     .sec:hover .main-img {
         @apply scale-110
     }
+
+    .left-img,
+    .right-img,
+    .right-small-img {
+        @apply opacity-0;
+    }
     .sec:hover .left-img {
         @apply delay-[30ms];
-        @apply scale-110 -translate-x-3 translate-y-3 rotate-[-46deg]
+        @apply scale-110 -translate-x-3 translate-y-3 rotate-[-46deg] opacity-100
+        
     }
     .sec:hover .right-img {
         @apply delay-[50ms];
-        @apply scale-110 translate-x-3 -translate-y-3 rotate-[46deg]
+        @apply scale-110 translate-x-3 -translate-y-3 rotate-[46deg] opacity-100
     }
 
     .sec:hover .right-small-img {
         @apply delay-75;
-        @apply scale-110 translate-x-3 translate-y-1 rotate-[10deg]
+        @apply scale-110 translate-x-3 translate-y-1 rotate-[10deg] opacity-100
     }
 </style>
