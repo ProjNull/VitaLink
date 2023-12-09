@@ -1,21 +1,18 @@
 from Database.database import Base, engine
 from flask import Flask, request, send_file
 from flask_socketio import SocketIO
-from flask_cors import CORS
 
-Base.metadata.create_all(engine)
-
-origins = "*"
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": origins}})
 
-socketio = SocketIO(app, cors_allowed_origins = origins)
-socketio.init_app(app)
+socketio = SocketIO(app)
+socketio.init_app(app, cors_allowed_origins="*")
 
 from admin import admin
 from employee import employee
 from patients import patients
 from messages import messages
+
+Base.metadata.create_all(engine)
 
 app.register_blueprint(patients, url_prefix="/patients")
 app.register_blueprint(employee, url_prefix="/employee")
