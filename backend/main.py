@@ -2,8 +2,6 @@ from Database.database import Base, engine
 from flask import Flask, request, send_file
 from flask_socketio import SocketIO
 
-Base.metadata.create_all(engine)
-
 app = Flask(__name__)
 
 socketio = SocketIO(app)
@@ -13,6 +11,8 @@ from admin import admin
 from employee import employee
 from patients import patients
 from messages import messages
+
+Base.metadata.create_all(engine)
 
 app.register_blueprint(patients, url_prefix="/patients")
 app.register_blueprint(employee, url_prefix="/employee")
