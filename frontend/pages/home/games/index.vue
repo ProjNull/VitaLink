@@ -10,6 +10,10 @@
         <Icon name="i-fluent-emoji-game-die" class="left-img drop-shadow-xl left-2 rotate-[-20deg] bottom-9 absolute" size="4rem"></Icon>
         <Icon name="i-fluent-emoji-trophy" class="right-small-img drop-shadow-xl right-1 rotate-[20deg] top-3 absolute" size="4rem"></Icon>
     </div>
+    <!-- <h2>Nejlepší skóre</h2>
+    <div class="w-fit mx-auto p-5 bg-cool-600 rounded-xl ">
+        932809
+    </div> -->
     <div class="flex flex-col md:flex-row gap-2 p-2 flex-wrap justify-center">
             <UButton to="/home/games/cards" class="sec flex flex-col">
                 <div class="relative">
