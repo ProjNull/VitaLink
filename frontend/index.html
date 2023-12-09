@@ -7,24 +7,16 @@
 </head>
 <body>
     <script>
-        async function createNewEmployee(firstName, lastName, password, email, dateOfBirth, isAdmin, nick) {
-            const payload = {
-                firstName: 'honza',
-                lastName:"palma",
-                password:"pass",
-                email:"mail@gmail.com",
-                dateOfBirth:"2023-12-09",
-                isAdmin: true,
-                nick: "palma"
-            };
-
+        let restApiAddress = 'http://127.0.0.1:8002'
+        
+        async function comune(restApiAddress, payload) {
             try {
-                const response = await fetch('http://127.0.0.1:8002/employee/new', {
+                const response = await fetch(restApiAddress+payload[1], {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload[0])
                 });
 
                 const data = await response.json();
@@ -33,8 +25,47 @@
                 console.error('Error:', error);
             }
         }
-
-
+        
+        function newEmployeeLoad(firstName, lastName, password, email, dateOfBirth, isAdmin, nick) {
+            return [
+                {
+                    firstName: 'honza',
+                    lastName:"palma",
+                    password:"pass",
+                    email:"mail@gmail.com",
+                    dateOfBirth:"2023-12-09",
+                    isAdmin: true,
+                    nick: "palma"
+                },
+                "/employee/new"
+            ]
+        };
+        function getEmployeeLoad(idEmployee) {
+            return [
+                {
+                    idEmployee: '3'
+                },
+                "/employee/get"
+            ]
+        };
+        function authEmployeeLoad(email, password) {
+            return [
+                {
+                    email:"mail@gmail.com",
+                    password:"pass"
+                },
+                "/employee/auth"
+            ]
+        };
+        function deletEmployeeLoad(idEmployee) {
+            return [
+                {
+                    idEmployee: 'honza'
+                },
+                "/employee/delete"
+            ]
+        };
+        
     </script>
         <button onclick="createNewEmployee('honza','palma','pass','mail@gmail.com','2023-12-09',true,'palma')">new</button>
 </body>
