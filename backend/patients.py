@@ -1,5 +1,12 @@
 from flask import Blueprint, jsonify, request
-from middlecrud import delete_patient, register_patient, login_patient, get_patient, set_patient_nickname
+from middlecrud import (
+    delete_patient,
+    register_patient,
+    login_patient,
+    get_patient,
+    set_patient_nickname,
+)
+from tokens import generateJWTPacient
 
 patients = Blueprint("Patients_BP", __name__, url_prefix="/patients")
 
@@ -23,7 +30,7 @@ def addPatient():
     return {
         "message": "Registered!",
         "status": 200,
-        "token": "payload.algorithm.signature",
+        "token": generateJWTPacient(firstName.title(), lastName.title(), r),
     }
 
 
@@ -37,6 +44,7 @@ def getPatientByID():
         return {"message": "Patient could not be retrieved", "status": 500}
     return {"message": "Patient retrieved", "status": 200, "patient": p}
 
+
 # TODO: login
 @patients.route("/login", methods=["POST"])
 def loginPatient():
@@ -44,23 +52,35 @@ def loginPatient():
     lastName = request.json.get("lastName")
     dateOfBirth = request.json.get("dateOfBirth")
     password = request.json.get("password")
-    
-    val = login_patient(firstName=firstName, lastName=lastName, dob=dateOfBirth, password=password)
-    
-    return jsonify(val)
+
+    val = login_patient(
+        firstName=firstName, lastName=lastName, dob=dateOfBirth, password=password
+    )
+    if val:
+        p = get_patient(
+            firstName=firstName,
+            lastName=lastName,
+            dob=dateOfBirth,
+        )
+        return {"status": 200, "token": generateJWTPacient(firstName.title(), lastName.title(), p.get("id"))}
+    return {"message": "Invalid credentials!", "status": 400}
+
+
 # TODO: delete
 @patients.route("/delete", methods=["DELETE"])
 def deletePatient():
     idPatient = request.json.get("/idPatient")
-    
+
     var = delete_patient(idPatient)
-    
+
     return jsonify(var)
+
+
 # TODO: set nickname
 @patients.route("/put", methods=["PUT"])
 def renamePatient():
     idPatient = request.json.get("idPatient")
     newNick = request.json.get("newNick")
-    
+
     var = set_patient_nickname(idPatient, newNick)
-    return jsonify(var)
+    return jsonify({"success": var})
