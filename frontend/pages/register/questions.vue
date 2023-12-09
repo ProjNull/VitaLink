@@ -1,7 +1,10 @@
 <script setup>
-const isOpen = ref(false)
-const qustion = ref(0)
+const modal1 = ref(false)
+const modal2 = ref(false)
+const modal3 = ref(false)
+const question = ref(0)
 
+const router = useRouter()
 const toast = useToast()
 
 const nickname = ref("")
@@ -26,10 +29,9 @@ const barvyPreklad = {
   "sky": "Obloha",
   "blue": "Modrá",
   "indigo": "Indigová",
-  "violet": "Fialová světle",
+  "violet": "světle Fialová",
   "purple": "Fialová",
-  "purple": "Růžová",
-  "fuchsia":"Fuchsiová",
+  "fuchsia":"Purpurová",
   "pink": "Růžová",
   "rose": "Ruže"
 }
@@ -51,37 +53,35 @@ function onSubmit (form) {
   console.log('Submitted form:', form)
 }
 onMounted(()=> {
-  isOpen.value = true;
+  modal1.value = true;
 })
 
 const emojis = [
   {
     icon: "i-fluent-emoji:smiling-face-with-heart-eyes",
-    text:"Je mi dobře.",
+    text:"Cítím se skvěle.",
     value: 5
   },{
-    icon: "i-fluent-emoji:beaming-face-with-smiling-eyes",
-    text:"Jsem spokojen.",
+    icon: "i-fluent-emoji:slightly-smiling-face",
+    text:"Cítím se spokojeně.",
     value: 4
   },{
     icon: "i-fluent-emoji:face-with-diagonal-mouth",
-    text:"Tak mezi.",
+    text:"Neutralní",
     value: 3
   },{
     icon: "i-fluent-emoji:disappointed-face",
-    text:"Jsem smutný.",
+    text:"Cítím se znepokojeně",
     value: 2
   },{
-    icon: "i-fluent-emoji:face-with-thermometer",
-    text:"Je to prostě špatný.",
+    icon: "i-fluent-emoji:loudly-crying-face",
+    text:"Je to velice špatný.",
     value: 1
   },
 ]
 
-const donequstions = ref([])
-
-function nextQustion() {
-  qustion.value++
+function nextQuestion() {
+  question.value++
 }
 
 function checkAll() {
@@ -89,7 +89,7 @@ function checkAll() {
   if (nickname.value == "") {
     toast.add({
       title: 'Není zadaná přezdívka.',
-      icon: 'i-heroicons:exclamation-triangle-solid',
+      icon: 'i-heroicons-exclamation-circle',
     })
     isOK = false;
   }
@@ -97,16 +97,31 @@ function checkAll() {
   if (nalada.value == 0) {
     toast.add({
       title: 'Není zadaná nálada.',
-      icon: 'i-heroicons:exclamation-triangle-solid',
+      icon: 'i-heroicons-exclamation-circle',
     })
     isOK = false;
   }
 
   if (isOK) {
     toast.add({
-      title: 'Posílám',
-      icon: 'i-heroicons:check-badge-solid',
+      id:"regstart",
+      title: 'Registrace.',
+      description:"Mělo by to bít rychlé.",
+      timeout: 0,
+      icon: 'i-heroicons-arrow-path-solid',
     })
+    setTimeout(()=> {
+      toast.remove("regstart")
+      toast.add({
+        title: 'Hotovo.',
+        description:"Butete automaticky přesměrovány na hlavní stránku.",
+        timeout: 2000,
+        icon: 'i-heroicons-check-badge',
+        callback: ()=> {
+          router.push("/home")
+        }
+      })
+    },500)
   }
 }
 
@@ -114,18 +129,18 @@ function checkAll() {
 
 <template>
   <SvgBG1></SvgBG1>
-  <UModal v-model="isOpen" prevent-close :overlay="false">
+  <UModal v-model="modal1" prevent-close :overlay="false">
     <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <h1 class="text-center text-2xl">Pár Otázek</h1>
         
       </template>
       
-      <div v-if="qustion == 0">
+      <div v-if="question == 0">
         <h1>Jak ti máme říkat?</h1>
         <UInput v-model="nickname"></UInput>
       </div>
-      <div v-if="qustion == 1">
+      <div v-if="question == 1">
         <h1>Jak se cítíš?</h1>
         <div class="flex justify-center py-2">
           <template v-for="emoji in emojis">
@@ -146,7 +161,7 @@ function checkAll() {
           </template>
         </div>
       </div>
-      <div v-if="qustion == 2">
+      <div v-if="question == 2">
         <h1>Vyber tvou oblíbenou barvu</h1>
         <div class="text-right">
           <ULink
@@ -171,26 +186,26 @@ function checkAll() {
         </div>
         
       </div>
-      <div v-if="qustion == 3">
-        <h1>Qustion 4</h1>
+      <div v-if="question == 3">
+        <h1>Question 4</h1>
       </div>
-      <div v-if="qustion >= 4">
-        <h1>Qustion 5</h1>
+      <div v-if="question >= 4">
+        <h1>Question 5</h1>
       </div>
 
       <template #footer>
         <div class="flex">
           <div class="flex flex-1 justify-start">
-            <UButton v-if="qustion > 0" variant="outline" @click="qustion -= 1">Zpět</UButton>
+            <UButton v-if="question > 0" variant="outline" @click="question -= 1">Zpět</UButton>
           </div>
           <div class="flex flex-1 justify-end">
-            <UButton v-if="qustion <= 3" @click="nextQustion()">Pokračovat</UButton>
-            <UButton v-else-if="qustion > 3" @click="checkAll()">Dokončit</UButton>
+            <UButton v-if="question <= 3" @click="nextQuestion()">Pokračovat</UButton>
+            <UButton v-else-if="question > 3" @click="checkAll()">Dokončit</UButton>
           </div>
         </div>
         <div class="flex justify-stretc gap-1 mx-auto mt-4">
           <template v-for="i in 5">
-            <div class="h-2 flex-1 rounded-xl transition-color duration-500" :class="{'bg-primary-500': qustion + 1 > i,'bg-primary-300':qustion + 1 == i,'bg-gray-700': qustion + 1 < i}">
+            <div @click="question = i - 1" class="h-2 flex-1 rounded-xl transition-color duration-500" :class="{'bg-primary-500': question + 1 > i,'bg-primary-300':question + 1 == i,'bg-gray-700': question + 1 < i}">
             </div>
           </template>
         </div>
@@ -204,6 +219,20 @@ function checkAll() {
     
     <!-- <UProgress :ui="{'progress':{'rounded':''}}" :value="qustion" :max="4"></UProgress> -->
   </UModal>
+
+  <!-- <UModal v-model="modal1" prevent-close :overlay="false">
+    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+      <h1>Registruji</h1>
+      <UProgress animation="swing" />
+    </UCard>
+  </UModal>
+
+  <UModal v-model="modal3" prevent-close :overlay="false">
+    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800 text-center' }">
+      <Icon name="i-heroicons:check" size="2rem"></Icon>
+      <h1>Hotovo</h1>
+    </UCard>
+  </UModal> -->
 </template>
 
 <style>

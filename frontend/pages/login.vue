@@ -34,8 +34,7 @@ onMounted(()=> {
         </UPopover>
         
         
-        <UButton to="/register/qustions" block>Přihlásit</UButton>
-        <UButton to="/register" block variant="link" color="primary">Registrovat</UButton>
+        <UButton to="/home" block>Přihlásit</UButton>
       </UForm>
 
     </UCard>

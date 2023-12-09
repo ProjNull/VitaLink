@@ -10,7 +10,7 @@ onMounted(()=> {
     show.value = false
     if (!localStorage.getItem("token")) {
       config.ui.primary = "red"
-      router.push("/register")
+      router.push("/login")
     }
   }, 1000)
 })
