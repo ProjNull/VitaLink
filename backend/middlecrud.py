@@ -388,7 +388,7 @@ def get_messages(patientId: int) -> list[dict] | None:
 
     Returns:
         list[dict] | None: None only if we failed.
-    
+
     Dict Format:
         "messageId": m.idMessage,
         "content": m.content,
@@ -418,3 +418,73 @@ def get_messages(patientId: int) -> list[dict] | None:
     except Exception as _:
         pass
     return None
+
+
+from enum import Enum
+
+
+class SortMethod(Enum):
+    ALPHABETICAL = "Alphabetical"
+    REVERSE = "Reverse"
+    RECENT = "Recent"
+
+
+def get_all_patients(
+    sort_method: SortMethod = SortMethod.ALPHABETICAL,
+) -> list[Patient] | None:
+    try:
+        with get_db() as session:
+            patients: list[Patient] | None = session.query(Patient).all()
+
+            # Define sorting key based on the selected sort method
+            if sort_method == SortMethod.RECENT:
+                patients.sort(key=lambda p: p.idPatient, reverse=True)
+            elif sort_method == SortMethod.ALPHABETICAL:
+                patients.sort(key=lambda p: (p.lastName, p.firstName))
+            elif sort_method == SortMethod.REVERSE:
+                patients.sort(key=lambda p: (p.lastName, p.firstName), reverse=True)
+
+            return [
+                {
+                    "idPatient": p.idPatient,
+                    "firstName": p.firstName,
+                    "lastName": p.lastName,
+                    "nickname": p.nick,
+                    "dateOfBirth": p.dateOfBirth,
+                }
+                for p in patients
+            ]
+    except:
+        return None
+
+
+def get_all_patients_of_nurse(
+    employeeid: int,
+    sort_method: SortMethod = SortMethod.ALPHABETICAL,
+) -> list[Patient] | None:
+    try:
+        with get_db() as session:
+            patients: list[Patient] | None = (
+                session.query(Patient).filterBy(idEmployee=employeeid).all()
+            )
+
+            # Define sorting key based on the selected sort method
+            if sort_method == SortMethod.RECENT:
+                patients.sort(key=lambda p: p.idPatient, reverse=True)
+            elif sort_method == SortMethod.ALPHABETICAL:
+                patients.sort(key=lambda p: (p.lastName, p.firstName))
+            elif sort_method == SortMethod.REVERSE:
+                patients.sort(key=lambda p: (p.lastName, p.firstName), reverse=True)
+
+            return [
+                {
+                    "idPatient": p.idPatient,
+                    "firstName": p.firstName,
+                    "lastName": p.lastName,
+                    "nickname": p.nick,
+                    "dateOfBirth": p.dateOfBirth,
+                }
+                for p in patients
+            ]
+    except:
+        return None
