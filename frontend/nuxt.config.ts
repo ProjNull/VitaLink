@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+export default {
+  head: {
+    script: [
+      { src: './fetchApi.js' },
+      // Add other global scripts here
+    ],
+  },
   devtools: { enabled: true },
   modules: [
     "@nuxt/ui",
