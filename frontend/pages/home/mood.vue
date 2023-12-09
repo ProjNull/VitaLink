@@ -31,15 +31,6 @@ const validate = (state) => {
   return errors
 }
 
-const fillSubject = () => {
-  if (predefined.value == -1) {
-    state.subject = ""
-  } else {
-    state.subject = questions.find(question => question.id === predefined.value).name
-  }
-  
-}
-
 const questions = [{
   id:-1,
   name: "Jiné"
@@ -51,10 +42,10 @@ const questions = [{
   name: "Co pro mě není důležité."
 },{
   id:3,
-  name: "Přál/a bych is, aby..."
+  name: "Přál/bych is, abi..."
 },{
   id:4,
-  name: "Pomohlo by mi..."
+  name: "Pomohlo my..."
 },{
   id:5,
   name: "Bojím se..."
@@ -63,10 +54,10 @@ const questions = [{
   name: "Mám otázku..."
 },{
   id:7,
-  name: "Chtěl/a bych si promluvit s..."
+  name: "Chtěl bych si promluvit s..."
 },{
   id:8,
-  name: "Můžu něco já sám udělat?"
+  name: "Můžu něco sám udělat?"
 },{
   id:9,
   name: "Potřebuji..."
@@ -127,7 +118,7 @@ async function onSubmit (event) {
 
             <span class="truncate">{{ item.label }}</span>
 
-            <span :class="{'hidden':selected != -1}" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
+            <span v-if="selected" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
           </div>
         </template>
         <template #item="{ item }">
@@ -179,7 +170,6 @@ async function onSubmit (event) {
           
             <UFormGroup label="Předmět" name="subject">
               <USelectMenu
-              @change="fillSubject"
               v-model="predefined"
               :options="questions"
               placeholder="Select people"

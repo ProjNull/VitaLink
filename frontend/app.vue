@@ -1,12 +1,15 @@
 <script setup>
-const config = useAppConfig()
-// onMounted(()=> {
-//   config.ui.primary = localStorage.getItem("color") ? localStorage.getItem("color") : "red"
-// })
+const show = ref(true)
+onMounted(()=> {
+  show.value = false
+})
 </script>
 <template>
   
-  <NuxtPage />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <Loading :show="show"></Loading>
   <UNotifications />
 </template>
 

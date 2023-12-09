@@ -1,17 +1,65 @@
 <script setup>
 
-const nalada = ref(35)
+const nalada = ref(75)
 const config = useAppConfig()
 onMounted(() => {
     config.ui.primary = localStorage.getItem("color") ? localStorage.getItem("color") : "red"
 })
 
+const barvy = ["red","orange","amber","yellow","lime","green","emerald","teal","cyan","sky","blue","indigo","violet","purple","fuchsia","pink","rose"]
+
+
+const barvyPreklad = {
+  "red": "Červená",
+  "orange": "Oranžová",
+  "amber": "Amber",
+  "yellow": "Žlutá",
+  "lime": "Limetka",
+  "green": "Zelená",
+  "emerald": "Emerald",
+  "teal": "Modrozelená",
+  "cyan": "Azurová",
+  "sky": "Obloha",
+  "blue": "Modrá",
+  "indigo": "Indigová",
+  "violet": "světle Fialová",
+  "purple": "Fialová",
+  "fuchsia":"Purpurová",
+  "pink": "Růžová",
+  "rose": "Ruže"
+}
+function changeColor(barva) {
+  config.ui.primary = barva
+  localStorage.setItem("color", barva)
+}
+
+function selected(barva) {
+  if (config.ui.primary == barva) {
+    return "solid"
+  }
+  return "outline"
+}
 </script>
 
 
 <template>
     <HomeContainer>
-        
+        <div class="flex items-center justify-between">
+            <UPopover>
+                <UButton color="white" trailing-icon="i-heroicons-swatch-solid" />
+
+                <template #panel>
+                <div class="p-4 flex flex-wrap w-[20rem] gap-2">
+                    <template v-for="barva in barvy">
+                        <Button square="true" @click="changeColor(barva)" :color="barva" :variant="selected(barva)" class="w-10 h-10 md:w-4 md:h-4 rounded-full" :class="`bg-${barva}-500`">
+                        </Button>
+                    </template>
+                </div>
+                </template>
+            </UPopover>
+
+          <UButton color="gray" variant="ghost" icon="i-heroicons-arrow-left-on-rectangle" class="-my-1" to="/">Odhlásit</UButton>
+        </div>
         <img src="/logo.svg" class="w-20 mx-auto pt-2">
         <h1 class="text-center font-bold text-2xl">Vítej uzivatel.prezdivka</h1>
         <h2 class="pb-4 pt-1 text-gray-600 dark:text-gray-400">Společně se vyléčíme.</h2>
@@ -32,16 +80,23 @@ onMounted(() => {
             <span v-else-if="nalada < 80" class="text-emerald-500">Veselý</span>
             <span v-else class="text-green-500 font-bold">Šťastný</span>
         </div>
+        <div class="m-2 flex items-center gap-1">
+            <!-- <UButton icon="i-heroicons-minus" @click=""></UButton> -->
+            <URange v-model="nalada" name="range" />
+            <!-- <UButton icon="i-heroicons-plus"></UButton> -->
+        </div>
+        
         <UDivider></UDivider>
         <div class="flex flex-col md:flex-row gap-2 p-2 flex-wrap justify-center">
-            <UButton class="sec flex flex-col">
+            
+            <!-- <UButton class="sec flex flex-col">
                 <div class="relative">
                     <h3 class="block text-xl font-bold">Nálada</h3>
                     <Icon name="i-fluent-emoji:smiling-face-with-heart-eyes" class="main-img drop-shadow-xl m-4" size="10rem"></Icon>
                     <Icon name="i-fluent-emoji-expressionless-face" class="left-img drop-shadow-xl left-2 rotate-[-40deg] bottom-9 absolute" size="4rem"></Icon>
                     <Icon name="i-fluent-emoji-fearful-face" class="right-img drop-shadow-xl right-0 rotate-[30deg] top-8 absolute" size="4rem"></Icon>
                 </div>
-            </UButton>
+            </UButton> -->
             <!-- <UButton class="sec flex flex-col">
                 <h3 class="block text-xl font-bold ">Otázky</h3>
                 <div class="relative">
@@ -69,7 +124,7 @@ onMounted(() => {
                 <!--  -->
                 <!-- <Icon name="i-fluent-emoji-thought-balloon" class="drop-shadow-xl m-4" size="10rem"></Icon> -->
             </UButton>
-            <URange v-model="nalada" name="range" />
+            
         </div>
         
 
