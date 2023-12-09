@@ -6,8 +6,7 @@
 
 from Database.database import Session
 from flask import Blueprint, request
-from middlecrud import (delete_employee, get_employee, login_employee,
-                        register_employee)
+from middlecrud import (delete_employee, get_employee, login_employee, register_employee)
 
 employee = Blueprint("Nurses_BP", __name__, url_prefix="/nurses")
 
