@@ -65,7 +65,28 @@
                 "/employee/delete"
             ]
         };
-        
+        function getMessages(idEmployee) {
+            return [
+                {
+                    idEmployee: 'honza'
+                },
+                "/messages/get"
+            ]
+        };
+        function postMessages(idPatient, idEmployee, isSenderEmployee, content, repliesTo) {
+            return [
+                {
+                    idPatient: idPatient, 
+                    idEmployee: idEmployee, 
+                    isSenderEmployee: isSenderEmployee, 
+                    content: content, 
+                    repliesTo: repliesTo
+                },
+                "/messages/post"
+            ]
+        };
+
+
     </script>
         <button onclick="createNewEmployee('honza','palma','pass','mail@gmail.com','2023-12-09',true,'palma')">new</button>
 </body>
